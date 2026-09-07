@@ -1,0 +1,6 @@
+dist/
+*.zip
+README.html
+admin.html
+.DS_Store
+Thumbs.db

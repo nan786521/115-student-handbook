@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#8bc8eb">
+  <title>115 年度建教生權益手冊</title>
+  <meta name="description" content="115 年度建教生勞動人權及勞動權益手冊 A／B 全冊電子書">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="reader-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="year">115</span>
+        <div><h1>建教生權益手冊</h1><p>勞動人權 × 勞動權益</p></div>
+      </div>
+      <div class="volume-tabs" role="tablist" aria-label="選擇冊別">
+        <button class="tab active" data-book="A" role="tab" aria-selected="true">A 冊</button>
+        <button class="tab" data-book="B" role="tab" aria-selected="false">B 冊</button>
+      </div>
+    </header>
+
+    <section class="book-stage" aria-label="電子書閱讀區">
+      <button class="edge-nav previous" id="prevBtn" aria-label="上一頁">‹</button>
+      <div class="book-spread" id="pageWrap">
+        <div class="page-pane left-page"><div class="page-skeleton" id="leftLoading">頁面載入中…</div><img id="leftPage" alt="手冊 A 冊第 1 頁" draggable="false"><div class="toc-overlay" id="leftToc" hidden></div></div>
+        <div class="book-spine" aria-hidden="true"></div>
+        <div class="page-pane right-page"><div class="page-skeleton" id="rightLoading">頁面載入中…</div><img id="rightPage" alt="手冊 A 冊第 2 頁" draggable="false"><div class="toc-overlay" id="rightToc" hidden></div></div>
+        <div class="page-shadow"></div>
+      </div>
+      <button class="edge-nav next" id="nextBtn" aria-label="下一頁">›</button>
+    </section>
+
+    <section class="controls" aria-label="閱讀控制">
+      <div class="page-controls">
+        <button class="icon-btn" id="firstBtn" aria-label="回到第一頁">«</button>
+        <button class="text-btn" id="prevMobile">上一頁</button>
+        <label class="page-jump">跳至第 <input id="pageInput" type="number" min="1" value="1" inputmode="numeric" aria-label="輸入頁碼"> 頁</label>
+        <span class="total" id="pageTotal">／232</span>
+        <button class="text-btn" id="nextMobile">下一頁</button>
+        <button class="icon-btn" id="lastBtn" aria-label="前往最後一頁">»</button>
+      </div>
+      <div class="utility-controls">
+        <button class="pill" id="tocBtn"><span aria-hidden="true">☰</span> 回目錄</button>
+        <button class="pill" id="musicBtn" aria-pressed="false"><span aria-hidden="true">♪</span> 音樂：關</button>
+        <label class="auto-control">自動播放
+          <select id="autoSelect" aria-label="選擇自動播放速度">
+            <option value="0">關閉</option>
+            <option value="8">每 8 秒</option>
+            <option value="5">每 5 秒</option>
+            <option value="3">每 3 秒</option>
+          </select>
+        </label>
+        <button class="pill" id="fullscreenBtn"><span aria-hidden="true">⛶</span> 全螢幕</button>
+      </div>
+      <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+    </section>
+    <p class="hint" id="spreadLabel">目前顯示封面第 1 頁・封面置於右側</p>
+  </main>
+  <script src="./app.js" defer></script>
+</body>
+</html>
