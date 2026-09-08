@@ -60,4 +60,13 @@ select{height:40px;border:1px solid #a9cedf;border-radius:11px;background:white;
 .book-spread.single{grid-template-columns:1fr;aspect-ratio:419.53/595.28;width:100%;height:auto}
 .book-spread.single .right-page,.book-spread.single .book-spine{display:none}
 .book-spread.single .left-page{border-radius:8px}
+/* 手機橫向（矮螢幕）：精簡標題與控制列，讓雙頁攤開盡量長高 */
+@media(orientation:landscape) and (max-height:500px){
+  .reader-shell{padding:8px 12px 6px;gap:6px}
+  .brand p,.hint,#musicBtn,.auto-control,.icon-btn{display:none}
+  .brand .year{width:36px;height:36px;font-size:.9rem}h1{font-size:1rem}.tab{padding:6px 12px;min-width:60px}
+  .controls{padding:6px 12px 10px;gap:6px 14px;border-radius:14px;flex-wrap:nowrap}
+  .book-stage,.book-spread{max-height:calc(100svh - 134px)}.book-stage{padding-inline:44px}
+  .edge-nav{width:36px;height:60px;font-size:2rem;border-radius:12px}.edge-nav.previous{left:2px}.edge-nav.next{right:2px}
+}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
