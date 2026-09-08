@@ -56,4 +56,8 @@ select{height:40px;border:1px solid #a9cedf;border-radius:11px;background:white;
   #fullscreenBtn{display:none}.hint{display:none}
 }
 @media(max-width:430px){h1{font-size:1rem}.brand{gap:6px}.brand .year{width:38px;height:38px;font-size:.9rem}.tab{font-size:.9rem;min-width:58px;padding:7px 10px}.page-controls{width:100%;justify-content:center}.text-btn{font-size:.9rem}.utility-controls{gap:5px}.pill,.auto-control,select{font-size:.82rem}}
+/* 單頁模式（手機直向）：只顯示左側頁框並撐滿寬度，比例改為單頁 A5 */
+.book-spread.single{grid-template-columns:1fr;aspect-ratio:419.53/595.28;width:100%;height:auto}
+.book-spread.single .right-page,.book-spread.single .book-spine{display:none}
+.book-spread.single .left-page{border-radius:8px}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}

@@ -1,6 +1,9 @@
 // 標題、冊別、目錄熱區來自 config.json；各冊頁數來自 build 時產生的 pages.json
 let books={},commonToc={},bookToc={},book='A',page=1;
-const normalize=(value,total)=>{const n=Math.max(1,Math.min(total,Number(value)||1));if(n===1)return 1;return n%2===0?n:n-1};
+// 手機直向＝單頁模式（一次一頁、逐頁翻）；桌機與橫向＝雙頁攤開（page 為左頁碼，封面單獨在右）
+const singleQuery=window.matchMedia('(max-width:720px) and (orientation:portrait)');
+const isSingle=()=>singleQuery.matches;
+const normalize=(value,total)=>{const n=Math.max(1,Math.min(total,Number(value)||1));if(isSingle()||n===1)return n;return n%2===0?n:n-1};
 let autoTimer=null,audioCtx=null,musicTimer=null,masterGain=null,touchX=0,wheelLock=false;
 const $=id=>document.getElementById(id);
 const leftPage=$('leftPage'),rightPage=$('rightPage'),leftLoading=$('leftLoading'),rightLoading=$('rightLoading');
@@ -20,6 +23,19 @@ function loadPage(img,loading,p,direction){
   img.onerror=()=>{loading.hidden=false;loading.textContent='頁面載入失敗'};img.src=fileFor(book,p);
 }
 function render(direction='next'){
+  const single=isSingle();$('pageWrap').classList.toggle('single',single);
+  const total=books[book].pages;
+  if(single){
+    loadPage(leftPage,leftLoading,page,direction);loadPage(rightPage,rightLoading,0,direction);
+    renderToc($('leftToc'),page);renderToc($('rightToc'),0);
+    pageInput.value=page;pageInput.max=total;pageTotal.textContent=`／${total}`;
+    progressBar.style.width=`${page/total*100}%`;
+    $('spreadLabel').textContent=`目前顯示第 ${page} 頁・可左右滑動翻頁`;
+    $('prevBtn').disabled=page===1;$('nextBtn').disabled=page>=total;
+    localStorage.setItem('handbookBook',book);localStorage.setItem(`handbookPage${book}`,page);
+    preload(page+1);preload(page+2);preload(page-1);
+    return;
+  }
   const leftNumber=page===1?0:page;const rightNumber=page===1?1:page+1;
   loadPage(leftPage,leftLoading,leftNumber,direction);loadPage(rightPage,rightLoading,rightNumber,direction);
   renderToc($('leftToc'),leftNumber);renderToc($('rightToc'),rightNumber);
@@ -31,7 +47,9 @@ function render(direction='next'){
   preload(page===1?2:page+2);preload(page===1?3:page+3);preload(page-1);
 }
 function go(target){const old=page;page=normalize(target,books[book].pages);render(page<old?'prev':'next')}
-function nextSpread(){go(page===1?2:page+2)}function prevSpread(){go(page===2?1:page-2)}
+function nextSpread(){if(isSingle())return go(page+1);go(page===1?2:page+2)}function prevSpread(){if(isSingle())return go(page-1);go(page===2?1:page-2)}
+// 轉向或縮放視窗跨過門檻時切換模式，並保住目前頁碼
+singleQuery.addEventListener('change',()=>{if(!books[book])return;page=normalize(page,books[book].pages);render()});
 function changeBook(next){book=next;page=normalize(localStorage.getItem(`handbookPage${book}`)||1,books[book].pages);document.querySelectorAll('.tab').forEach(t=>{const on=t.dataset.book===book;t.classList.toggle('active',on);t.setAttribute('aria-selected',String(on))});render()}
 
 $('prevBtn').onclick=$('prevMobile').onclick=prevSpread;$('nextBtn').onclick=$('nextMobile').onclick=nextSpread;
